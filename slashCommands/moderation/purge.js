@@ -38,6 +38,15 @@ module.exports = {
       })
       .setTimestamp();
 
+    if (amount > 100)
+      return interaction.reply({
+        embeds: [
+          embed
+            .setTitle("Uh oh!")
+            .setDescription("You can only purge up to 100 messages at a time."),
+        ],
+      });
+
     if (user) {
       let i = 0;
       const filtered = [];
