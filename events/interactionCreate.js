@@ -8,7 +8,17 @@ client.on("interactionCreate", async (interaction) => {
     const cmd = client.slashCommands.get(interaction.commandName);
     if (!cmd)
       return interaction.reply({
-        content: "An error has occured",
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Uh oh!")
+            .setDescription("That command no longer exists.")
+            .setColor(client.config.color)
+            .setFooter({
+              text: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTimestamp(),
+        ],
         ephemeral: true,
       });
 
@@ -33,7 +43,7 @@ client.on("interactionCreate", async (interaction) => {
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription(`An error has occured.`)
+            .setDescription("An error has occured.")
             .addField("Error", err)
             .setColor(client.config.color)
             .setFooter({
