@@ -5,6 +5,7 @@ module.exports = {
   name: "timeout",
   description:
     "Times out a member from the server, basically stopping them from talking.",
+  userPerms: ["MODERATE_MEMBERS", "ADMINISTRATOR"],
   options: [
     {
       name: "user",

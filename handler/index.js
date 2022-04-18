@@ -67,7 +67,7 @@ module.exports = async (client) => {
               permission: true,
             },
           ];
-        });
+        }, []);
 
         return [
           ...acc,

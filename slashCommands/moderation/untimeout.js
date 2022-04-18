@@ -3,6 +3,7 @@ const { Client, Interaction, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "untimeout",
   description: "Remove a timeout for someone, letting them talk again.",
+  userPerms: ["MODERATE_MEMBERS", "ADMINISTRATOR"],
   options: [
     {
       name: "user",
