@@ -1,4 +1,5 @@
 const client = require("../index");
+const { MessageEmbed } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
   // Slash Command Handling
@@ -25,7 +26,25 @@ client.on("interactionCreate", async (interaction) => {
       interaction.user.id
     );
 
-    cmd.run(client, interaction, args);
+    try {
+      cmd.run(client, interaction, args);
+    } catch (err) {
+      interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Uh oh!")
+            .setDescription(`An error has occured.`)
+            .addField("Error", err)
+            .setColor(client.config.color)
+            .setFooter({
+              text: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTimestamp(),
+        ],
+        ephemeral: true,
+      });
+    }
   }
 
   // Context Menu Handling
