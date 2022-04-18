@@ -24,10 +24,10 @@ module.exports = {
    * @param {Interaction} interaction
    */
   run: async (client, interaction) => {
-    const user = interaction.guild.members.cache.get(
+    const member = interaction.guild.members.cache.get(
       interaction.options.getUser("user").id
     );
-    if (!user)
+    if (!member)
       return interaction.reply({
         embeds: [
           new MessageEmbed()
@@ -45,7 +45,7 @@ module.exports = {
     const reason =
       interaction.options.getString("reason") || "No reason provided.";
 
-    if (user.id === interaction.member.id)
+    if (member.id === interaction.member.id)
       return interaction.reply({
         embeds: [
           new MessageEmbed()
@@ -62,7 +62,7 @@ module.exports = {
       });
 
     if (
-      user.roles.highest.position >= interaction.member.roles.highest.position
+      member.roles.highest.position >= interaction.member.roles.highest.position
     )
       return interaction.reply({
         embeds: [
@@ -80,7 +80,7 @@ module.exports = {
         ],
         ephemeral: true,
       });
-    if (!user.bannable)
+    if (!member.bannable)
       return interaction.reply({
         embeds: [
           new MessageEmbed()
@@ -100,7 +100,7 @@ module.exports = {
       embeds: [
         new MessageEmbed()
           .setTitle("Aaaand he's gone.")
-          .setDescription("I have banned " + user.tag + " successfully.")
+          .setDescription("I have banned " + member.tag + " successfully.")
           .addField("Reason", reason)
           .setColor(client.config.color)
           .setFooter({
