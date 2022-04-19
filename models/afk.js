@@ -6,5 +6,6 @@ module.exports = mongoose.model(
     User: String,
     Reason: String,
     Time: String,
+    OriginalName: String,
   })
 );

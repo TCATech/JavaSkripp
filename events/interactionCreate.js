@@ -44,7 +44,7 @@ client.on("interactionCreate", async (interaction) => {
           new MessageEmbed()
             .setTitle("Uh oh!")
             .setDescription("An error has occured.")
-            .addField("Error", err)
+            .addField("Error", err.toString())
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,

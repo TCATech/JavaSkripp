@@ -27,8 +27,8 @@ module.exports = {
     if (interaction.options.getString("cmdname")) {
       const embed = new MessageEmbed();
       const cmd =
-        client.commands.get(interaction.options.getString("cmdname")) ||
-        client.commands.find((c) =>
+        client.slashCommands.get(interaction.options.getString("cmdname")) ||
+        client.slashCommands.find((c) =>
           c.aliases?.includes(
             interaction.options.getString("cmdname").toLowerCase()
           )
@@ -79,7 +79,7 @@ module.exports = {
       });
     } else {
       const directories = [
-        ...new Set(client.commands.map((cmd) => cmd.directory)),
+        ...new Set(client.slashCommands.map((cmd) => cmd.directory)),
       ];
 
       /**
@@ -91,13 +91,12 @@ module.exports = {
         `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
 
       const categories = directories.map((dir) => {
-        const getCommands = client.commands
+        const getCommands = client.slashCommands
           .filter((cmd) => cmd.directory === dir)
           .map((cmd) => {
             return {
               name: cmd.name || "???",
-              description:
-                cmd.description || "No description for this command.",
+              description: cmd.description || "no description for this command",
             };
           });
 
@@ -110,7 +109,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle("I heard you needed some help.")
         .setDescription(
-          "Please choose a category using the dropdown menu below. If you want more help with a specific command, use `/help [command name]`."
+          "Please choose a category using the dropdown menu below. If you want to see information about a specific command, use `/help [command name]`."
         )
         .setColor(interaction.color)
         .setFooter({
@@ -142,13 +141,14 @@ module.exports = {
         ),
       ];
 
-      const init = await interaction.reply({
+      await interaction.reply({
         embeds: [embed],
         components: components(false),
+        fetchReply: true,
         ephemeral: true,
       });
 
-      const filter = (int) => int.user.id === interaction.author.id;
+      const filter = (int) => int.user.id === interaction.user.id;
 
       const collector = interaction.channel.createMessageComponentCollector({
         filter,
@@ -187,7 +187,7 @@ module.exports = {
       });
 
       collector.on("end", () => {
-        init.edit({
+        interaction.editReply({
           content: "You ran out of time! Do /help again.",
           components: components(true),
         });

@@ -56,12 +56,24 @@ module.exports = {
             {
               Reason: reason || "No reason provided.",
               Time: parseInt(createdTimestamp / 1000),
+              OriginalName:
+                interaction.guild.members.cache.get(user.id).nickname ||
+                user.username,
             },
             {
               new: true,
               upsert: true,
             }
           );
+
+          interaction.guild.members.cache
+            .get(user.id)
+            .setNickname(
+              `[AFK] ${
+                interaction.guild.members.cache.get(user.id).nickname ||
+                user.username
+              }`
+            );
 
           interaction.reply({
             embeds: [
@@ -75,11 +87,24 @@ module.exports = {
         break;
       case "return":
         {
-          await model.deleteOne({ User: user.id });
-          interaction.reply({
-            embeds: [embed.setDescription("You are no longer AFK.")],
-            ephemeral: true,
-          });
+          model.findOne(
+            {
+              User: user.id,
+            },
+            async (err, data) => {
+              if (err) throw err;
+              if (data) {
+                interaction.guild.members.cache
+                  .get(user.id)
+                  .setNickname(`${data.OriginalName}`);
+                await data.remove();
+                interaction.reply({
+                  embeds: [embed.setDescription("You are no longer AFK.")],
+                  ephemeral: true,
+                });
+              }
+            }
+          );
         }
         break;
     }

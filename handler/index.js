@@ -33,7 +33,9 @@ module.exports = async (client) => {
   slashCommands.map((value) => {
     const file = require(value);
     if (!file?.name) return;
-    client.slashCommands.set(file.name, file);
+    const splitted = value.split("/");
+    const directory = splitted[splitted.length - 2];
+    client.slashCommands.set(file.name, { directory, ...file });
 
     if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
     if (file.userPerms) file.defaultPermission = false;
@@ -41,7 +43,10 @@ module.exports = async (client) => {
   });
   client.on("ready", async () => {
     // Register for a single guild
-    const guild = client.guilds.cache.get(client.config.guild);
+    let guild = client.guilds.cache.get(client.config.guild);
+    if (!guild) {
+      guild = client.guilds.cache.get("965816962062110740");
+    }
     await guild.commands.set(arrayOfSlashCommands).then((cmd) => {
       const getRoles = (commandName) => {
         const permissions = arrayOfSlashCommands.find(
