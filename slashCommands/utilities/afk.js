@@ -73,7 +73,8 @@ module.exports = {
                 interaction.guild.members.cache.get(user.id).nickname ||
                 user.username
               }`
-            );
+            )
+            .catch(() => {});
 
           interaction.reply({
             embeds: [
@@ -96,7 +97,8 @@ module.exports = {
               if (data) {
                 interaction.guild.members.cache
                   .get(user.id)
-                  .setNickname(`${data.OriginalName}`);
+                  .setNickname(`${data.OriginalName}`)
+                  .catch(() => {});
                 await data.remove();
                 interaction.reply({
                   embeds: [embed.setDescription("You are no longer AFK.")],
