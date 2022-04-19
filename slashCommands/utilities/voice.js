@@ -162,8 +162,8 @@ module.exports = {
               embeds: [
                 embed.setDescription(
                   "I have successfully invited " +
-                    member.user.tag +
-                    "to your voice channel! Now we just need to wait."
+                    target.user.tag +
+                    " to your voice channel! Now we just need to wait."
                 ),
               ],
               ephemeral: true,
@@ -175,7 +175,7 @@ module.exports = {
                   .setTitle("Uh oh!")
                   .setDescription(
                     "I couldn't DM " +
-                      member.user.tag +
+                      target.user.tag +
                       " because they have their DMs off. Try messaging them yourself."
                   )
                   .setColor("RED"),
@@ -202,8 +202,8 @@ module.exports = {
             embeds: [
               embed.setDescription(
                 "I have successfully removed " +
-                  member.user.tag +
-                  "from your voice channel."
+                  target.user.tag +
+                  " from your voice channel."
               ),
             ],
             ephemeral: true,
@@ -221,8 +221,8 @@ module.exports = {
             embeds: [
               embed.setDescription(
                 "I have successfully let " +
-                  member.user.tag +
-                  "join your voice channel again."
+                  target.user.tag +
+                  " join your voice channel."
               ),
             ],
             ephemeral: true,
