@@ -10,8 +10,8 @@ module.exports = {
    */
   run: async (client, interaction) => {
     const embed = new MessageEmbed()
-      .setTitle("🐶 Woof! 🐶")
-      .setImage(await animals.dog())
+      .setTitle("🐱 Meow! 🐱")
+      .setImage(await animals.cat())
       .setFooter({
         text: client.user.username,
         iconURL: client.user.displayAvatarURL({ dynamic: true }),
