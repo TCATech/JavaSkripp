@@ -82,10 +82,7 @@ module.exports = {
       if (cmd.description)
         embed.addField("Description", `\`${cmd.description}\``);
       if (cmd.directory)
-        embed.addField(
-          "Category",
-          `\`${formatString(description[cmd.directory])}\``
-        );
+        embed.addField("Category", `\`${name[cmd.directory]}\``);
       if (cmd.options) {
         const allOptions = [];
         cmd.options.forEach((option) => {
@@ -93,7 +90,7 @@ module.exports = {
         });
         embed.addField("Options", `\`${allOptions.join(", ")}\``);
       } else {
-        embed.addField("Options", "None");
+        embed.addField("Options", "`None`");
       }
       return interaction.reply({
         embeds: [embed.setColor(interaction.color).setTimestamp()],
