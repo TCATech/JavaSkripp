@@ -61,7 +61,7 @@ module.exports = {
         },
         {
           name: "Discriminator",
-          value: "`" + member.user.discriminator + "`",
+          value: "`#" + member.user.discriminator + "`",
           inline: true,
         },
         {
