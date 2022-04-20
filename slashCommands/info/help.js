@@ -93,7 +93,7 @@ module.exports = {
         });
         embed.addField("Options", `\`${allOptions.join(", ")}\``);
       } else {
-        embed.addField("*Options", "None");
+        embed.addField("Options", "None");
       }
       return interaction.reply({
         embeds: [embed.setColor(interaction.color).setTimestamp()],
