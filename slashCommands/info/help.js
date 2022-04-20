@@ -182,7 +182,11 @@ module.exports = {
         );
 
         const categoryEmbed = new MessageEmbed()
-          .setTitle(`${formatString(directory)} commands`)
+          .setTitle(
+            `${emojis[directory]} ${formatString(
+              description[directory]
+            )} commands`
+          )
           .addFields(
             category.commands.map((cmd) => {
               return {
