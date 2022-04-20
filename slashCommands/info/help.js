@@ -6,21 +6,27 @@ const {
   MessageSelectMenu,
 } = require("discord.js");
 const emojis = {
+  fun: "🎲",
   games: "🎮",
   information: "📰",
   moderation: "🔨",
+  music: "🎵",
   utilities: "🔧",
 };
 const name = {
+  fun: "Fun",
   games: "Games",
   info: "Information",
   moderation: "Moderation",
+  music: "Music",
   utilities: "Utilities",
 };
 const description = {
+  fun: "fun",
   games: "game",
   information: "information",
   moderation: "moderation",
+  music: "music",
   utilities: "utility",
 };
 
