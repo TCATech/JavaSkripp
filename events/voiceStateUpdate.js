@@ -17,6 +17,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
       {
         type: "GUILD_VOICE",
         parent: newChannel.parent,
+        position: newChannel.position,
         permissionOverwrites: [
           {
             id: member.id,
