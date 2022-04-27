@@ -1,12 +1,12 @@
 {
   "prefix": ".",
   "color": "#FCCE00",
-  "guild": "919821085728456746",
+  "guild": "968047795351220224",
   "channels": {
-    "memberCount": "965390355375743047",
-    "joinToCreate": "965503860489728060",
-    "guestbook": "919821930247364648",
-    "rules": "919821883292155934",
-    "suggestions": "965807308246483024"
-  }
+    "joinToCreate": "968047795351220228",
+    "guestbook": "968055264030912522",
+    "rules": "968054163382603817",
+    "suggestions": "968649982288744519"
+  },
+  "guestBookBG": "https://media.discordapp.net/attachments/965816962062110743/968804947950977034/axolotl_with_black_bg.png"
 }

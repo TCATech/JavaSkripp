@@ -3,8 +3,6 @@ const client = require("../index");
 const { welcomeImage } = require("ultrax");
 
 client.on("guildMemberAdd", async (member) => {
-  const bg =
-    "https://media.discordapp.net/attachments/965816962062110743/966324282344996924/cool_woodlands_thing_ig_but_with_dark_bg.png";
   const avatar = member.user.displayAvatarURL({ format: "png" });
   const options = {
     attachmentName: `welcome-${member.id}`,
@@ -13,7 +11,7 @@ client.on("guildMemberAdd", async (member) => {
     text3_fontSize: 30,
   };
   const image = await welcomeImage(
-    bg,
+    client.config.guestBookBG,
     avatar,
     "Welcome",
     member.user.tag,
