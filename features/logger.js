@@ -64,11 +64,7 @@ module.exports = (client) => {
       );
     })
     .on("channelUpdate", (oldChannel, newChannel) => {
-      if (
-        oldChannel.id === "968847741545496586" ||
-        oldChannel.id === "968821530589003816"
-      )
-        return;
+      if (oldChannel.id === "968821530589003816") return;
       if (oldChannel.name !== newChannel.name) {
         send_log(
           client,
