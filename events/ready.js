@@ -2,9 +2,8 @@ const client = require("../index");
 const keepAlive = require("../server");
 
 client.on("ready", () => {
-  client.user.setActivity("for Graphify", {
-    type: "STREAMING",
-    url: "https://www.youtube.com/watch?v=1ZQT46APq3s",
+  client.user.setActivity("TCA look cool.", {
+    type: "WATCHING",
   });
   console.log(`${client.user.tag} is now online!`);
 
