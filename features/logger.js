@@ -15,6 +15,7 @@ const channelTypes = {
 module.exports = (client) => {
   client
     .on("messageUpdate", (oldMessage, newMessage) => {
+      if (oldMessage.author.bot) return;
       send_log(
         client,
         new MessageEmbed()
