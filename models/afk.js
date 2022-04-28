@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 module.exports = mongoose.model(
-  "joinToCreate",
+  "afk",
   new mongoose.Schema({
     User: String,
     Reason: String,
