@@ -14,27 +14,3 @@ client.voiceGenerator = new Discord.Collection();
 require("./handler")(client);
 
 client.login(process.env.TOKEN);
-
-const { DisTube } = require("distube");
-const { SpotifyPlugin } = require("@distube/spotify");
-const { SoundCloudPlugin } = require("@distube/soundcloud");
-const { YtDlpPlugin } = require("@distube/yt-dlp");
-
-client.distube = new DisTube(client, {
-  emitNewSongOnly: true,
-  leaveOnEmpty: true,
-  leaveOnStop: false,
-  leaveOnFinish: false,
-  savePreviousSongs: true,
-  plugins: [
-    new SpotifyPlugin({
-      emitEventsAfterFetching: true,
-    }),
-    new SoundCloudPlugin(),
-    new YtDlpPlugin(),
-  ],
-  youtubeDL: false,
-  updateYouTubeDL: false,
-  emitAddListWhenCreatingQueue: false,
-  emitAddSongWhenCreatingQueue: false,
-});
