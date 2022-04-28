@@ -47,44 +47,7 @@ module.exports = async (client) => {
     if (!guild) {
       guild = client.guilds.cache.get("965816962062110740");
     }
-    await guild.commands.set(arrayOfSlashCommands).then((cmd) => {
-      const getRoles = (commandName) => {
-        const permissions = arrayOfSlashCommands.find(
-          (x) => x.name === commandName
-        ).userPerms;
-
-        if (!permissions) return null;
-        return guild.roles.cache.filter(
-          (x) => x.permissions.has(permissions) && !x.managed
-        );
-      };
-
-      const fullPermissions = cmd.reduce((acc, x) => {
-        const roles = getRoles(x.name);
-        if (!roles) return acc;
-
-        const permissions = roles.reduce((a, v) => {
-          return [
-            ...a,
-            {
-              id: v.id,
-              type: "ROLE",
-              permission: true,
-            },
-          ];
-        }, []);
-
-        return [
-          ...acc,
-          {
-            id: x.id,
-            permissions,
-          },
-        ];
-      }, []);
-
-      guild.commands.permissions.set({ fullPermissions });
-    });
+    await guild.commands.set(arrayOfSlashCommands);
 
     // Register for all the guilds the bot is in
     // await client.application.commands.set(arrayOfSlashCommands);
