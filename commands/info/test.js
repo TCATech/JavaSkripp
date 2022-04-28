@@ -1,8 +1,8 @@
 module.exports = {
   name: "test",
   description: "test",
-  run: async (client, interaction) => {
-    interaction.reply({
+  run: async (client, message) => {
+    message.reply({
       content: "727 is the best number.",
     });
   },

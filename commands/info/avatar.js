@@ -1,24 +1,15 @@
-const { Client, CommandInteraction, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "avatar",
   description: "Gets the avatar of a user.",
-  options: [
-    {
-      name: "user",
-      description: "The user to get the avatar of.",
-      type: "USER",
-      required: false,
-    },
-  ],
   /**
    * @param {Client} client
-   * @param {CommandInteraction} interaction
+   * @param {Message} message
+   * @param {String[]} args
    */
-  run: async (client, interaction) => {
-    const { options } = interaction;
-
-    const member = options.getMember("user") || interaction.member;
+  run: async (client, message, args) => {
+    const member = message.mentions.members.first() || message.member;
 
     const avatar = member.displayAvatarURL({ size: 4096, dynamic: true });
 
@@ -35,9 +26,8 @@ module.exports = {
       })
       .setTimestamp();
 
-    interaction.reply({
+    message.reply({
       embeds: [embed],
-      ephemeral: true,
     });
   },
 };
