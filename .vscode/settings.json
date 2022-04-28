@@ -1,0 +1,8 @@
+{
+  "explorer.experimental.fileNesting.enabled": true,
+  "explorer.experimental.fileNesting.expand": true,
+  "explorer.experimental.fileNesting.patterns": {
+    "package.json": "package-lock.json, yarn.lock",
+    "config.json": "emojis.json, .env"
+  }
+}
