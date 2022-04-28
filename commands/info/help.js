@@ -1,6 +1,6 @@
 const {
   Client,
-  Interaction,
+  Message,
   MessageEmbed,
   MessageActionRow,
   MessageSelectMenu,
@@ -33,20 +33,13 @@ const description = {
 module.exports = {
   name: "help",
   description: "Get some help.",
-  options: [
-    {
-      name: "command",
-      description: "The name of the command you want help for.",
-      type: "STRING",
-      required: false,
-    },
-  ],
   /**
    *
    * @param {Client} client
-   * @param {Interaction} interaction
+   * @param {Message} message
+   * @param {String[]} args
    */
-  run: async (client, interaction) => {
+  run: async (client, message, args) => {
     /**
      *
      * @param {String} str
@@ -54,24 +47,18 @@ module.exports = {
      */
     const formatString = (str) =>
       `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
-    if (interaction.options.getString("command")) {
+    if (args[0]) {
       const embed = new MessageEmbed();
       const cmd =
-        client.slashCommands.get(interaction.options.getString("command")) ||
-        client.slashCommands.find((c) =>
-          c.aliases?.includes(
-            interaction.options.getString("command").toLowerCase()
-          )
-        );
+        client.commands.get(args[0]) ||
+        client.commands.find((c) => c.aliases?.includes(args[0].toLowerCase()));
       if (!cmd) {
-        return interaction.reply({
+        return message.reply({
           embeds: [
             embed
               .setColor("RED")
               .setDescription(
-                `No information found for command "${interaction.options.getString(
-                  "command"
-                )}".`
+                `No information found for command "${args[0]}". Try using slash commands.`
               )
               .setTitle("Uh oh!")
               .setFooter({
@@ -80,7 +67,6 @@ module.exports = {
               })
               .setTimestamp(),
           ],
-          ephemeral: true,
         });
       }
       if (cmd.name) embed.addField("Command name", `\`${cmd.name}\``);
@@ -98,9 +84,8 @@ module.exports = {
       } else {
         embed.addField("Options", "`None`");
       }
-      return interaction.reply({
-        embeds: [embed.setColor(interaction.color).setTimestamp()],
-        ephemeral: true,
+      return message.reply({
+        embeds: [embed.setColor(message.color).setTimestamp()],
       });
     } else {
       const directories = [
@@ -108,7 +93,7 @@ module.exports = {
       ];
 
       const categories = directories.map((dir) => {
-        const getCommands = client.slashCommands
+        const getCommands = client.commands
           .filter((cmd) => cmd.directory === dir)
           .map((cmd) => {
             return {
@@ -126,9 +111,9 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle("I heard you needed some help.")
         .setDescription(
-          "Please choose a category using the dropdown menu below. If you want to see information about a specific command, use `/help [command]`. For example: `/help ban`."
+          "Please choose a category using the dropdown menu below. If you want to see information about a specific command, use `?help [command]`. For example: `?help ban`."
         )
-        .setColor(interaction.color)
+        .setColor(message.color)
         .setFooter({
           text: client.user.username,
           iconURL: client.user.displayAvatarURL({ dynamic: true }),
@@ -161,16 +146,14 @@ module.exports = {
         ),
       ];
 
-      await interaction.reply({
+      const msg = await message.reply({
         embeds: [embed],
         components: components(false),
-        fetchReply: true,
-        ephemeral: true,
       });
 
-      const filter = (int) => int.user.id === interaction.user.id;
+      const filter = (int) => int.user.id === message.author.id;
 
-      const collector = interaction.channel.createMessageComponentCollector({
+      const collector = message.channel.createMessageComponentCollector({
         filter,
         componentType: "SELECT_MENU",
       });
@@ -196,7 +179,7 @@ module.exports = {
               };
             })
           )
-          .setColor(interaction.color)
+          .setColor(message.color)
           .setFooter({
             text: client.user.username,
             iconURL: client.user.displayAvatarURL({ dynamic: true }),
@@ -207,8 +190,8 @@ module.exports = {
       });
 
       collector.on("end", () => {
-        interaction.editReply({
-          content: "You ran out of time! Do /help again.",
+        msg.edit({
+          content: "You ran out of time! Do ?help again.",
           components: components(true),
         });
       });
