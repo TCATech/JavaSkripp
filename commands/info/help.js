@@ -33,6 +33,7 @@ const description = {
 module.exports = {
   name: "help",
   description: "Get some help.",
+  usage: "[command]",
   /**
    *
    * @param {Client} client
@@ -75,14 +76,16 @@ module.exports = {
         embed.addField("Description", `\`${cmd.description}\``);
       if (cmd.directory)
         embed.addField("Category", `\`${name[cmd.directory]}\``);
-      if (cmd.options) {
-        const allOptions = [];
-        cmd.options.forEach((option) => {
-          allOptions.push(option.name);
-        });
-        embed.addField("Options", `\`${allOptions.join(", ")}\``);
-      } else {
-        embed.addField("Options", "`None`");
+      if (cmd.usage) {
+        embed
+          .addField(
+            "Usage",
+            "`" + client.config.prefix + cmd.name + " " + cmd.usage + "`"
+          )
+          .setFooter({
+            text: "<> = Required | [] = Optional",
+            iconURL: client.user.displayAvatarURL({ dynamic: true }),
+          });
       }
       return message.reply({
         embeds: [embed.setColor(message.color).setTimestamp()],
@@ -111,7 +114,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle("I heard you needed some help.")
         .setDescription(
-          "Please choose a category using the dropdown menu below. If you want to see information about a specific command, use `?help [command]`. For example: `?help ban`."
+          `Please choose a category using the dropdown menu below. If you want to see information about a specific command, use \`${client.config.prefix}help [command]\`. For example: \`${client.config.prefix}help ban\`.`
         )
         .setColor(message.color)
         .setFooter({
@@ -191,7 +194,7 @@ module.exports = {
 
       collector.on("end", () => {
         msg.edit({
-          content: "You ran out of time! Do ?help again.",
+          content: `You ran out of time! Do ${client.config.prefix}help again.`,
           components: components(true),
         });
       });

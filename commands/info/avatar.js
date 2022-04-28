@@ -3,6 +3,7 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "avatar",
   description: "Gets the avatar of a user.",
+  usage: "[user]",
   /**
    * @param {Client} client
    * @param {Message} message

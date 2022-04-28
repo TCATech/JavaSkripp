@@ -12,6 +12,7 @@ const replaceDisco = (str) =>
 module.exports = {
   name: "docs",
   description: "Get some info from the Discord.JS documentation.",
+  usage: "<query>",
   /**
    * @param {Client} client
    * @param {Message} message
