@@ -3,7 +3,7 @@ const { Client, Interaction, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "kick",
   description: "Kicks a user from the server.",
-  userPerms: ["KICK_MEMBERS", "MODERATE_MEMBERS", "ADMINISTRATOR"],
+  userPerms: ["KICK_MEMBERS"],
   options: [
     {
       name: "user",

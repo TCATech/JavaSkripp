@@ -3,7 +3,7 @@ const { Client, Interaction, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "ban",
   description: "Bans a user from the server.",
-  userPerms: ["BAN_MEMBERS", "MODERATE_MEMBERS", "ADMINISTRATOR"],
+  userPerms: ["BAN_MEMBERS"],
   options: [
     {
       name: "user",

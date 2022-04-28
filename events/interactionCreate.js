@@ -37,6 +37,23 @@ client.on("interactionCreate", async (interaction) => {
     );
 
     try {
+      if (!interaction.member.permissions.has(cmd.userPerms || [])) {
+        return interaction.reply({
+          embeds: [
+            new MessageEmbed()
+              .setTitle("Uh oh!")
+              .setDescription("You don't have permission to use that command.")
+              .setColor(client.config.color)
+              .setFooter({
+                text: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+              })
+              .setTimestamp(),
+          ],
+          ephemeral: true,
+        });
+      }
+
       cmd.run(client, interaction, args);
     } catch (err) {
       interaction.reply({

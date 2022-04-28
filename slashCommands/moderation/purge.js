@@ -3,7 +3,7 @@ const { Client, Interaction, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "purge",
   description: "Purges a number of messages from a channel.",
-  userPerms: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+  userPerms: ["MANAGE_MESSAGES"],
   options: [
     {
       name: "amount",
