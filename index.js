@@ -7,6 +7,7 @@ const client = new Discord.Client({
 module.exports = client;
 
 client.config = require("./config");
+client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.slashCommands = new Discord.Collection();
 client.voiceGenerator = new Discord.Collection();
