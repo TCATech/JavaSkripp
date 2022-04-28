@@ -96,7 +96,7 @@ module.exports = {
       embeds: [
         new MessageEmbed()
           .setTitle("Aaaand he's gone.")
-          .setDescription("I have kicked " + member.tag + " successfully.")
+          .setDescription("I have kicked " + member.user.tag + " successfully.")
           .addField("Reason", reason)
           .setColor(client.config.color)
           .setFooter({

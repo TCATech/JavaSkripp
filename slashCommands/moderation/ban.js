@@ -100,7 +100,7 @@ module.exports = {
       embeds: [
         new MessageEmbed()
           .setTitle("Aaaand he's gone.")
-          .setDescription("I have banned " + member.tag + " successfully.")
+          .setDescription("I have banned " + member.user.tag + " successfully.")
           .addField("Reason", reason)
           .setColor(client.config.color)
           .setFooter({
