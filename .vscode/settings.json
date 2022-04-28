@@ -3,6 +3,7 @@
   "explorer.experimental.fileNesting.expand": true,
   "explorer.experimental.fileNesting.patterns": {
     "package.json": "package-lock.json, yarn.lock",
-    "config.json": "emojis.json, .env"
+    "config.json": "emojis.json, .env, .env.example, .gitignore",
+    "index.js": "server.js"
   }
 }
