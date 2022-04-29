@@ -4,6 +4,7 @@ module.exports = {
   name: "avatar",
   description: "Gets the avatar of a user.",
   usage: "[user]",
+  aliases: ["av", "pfp"],
   /**
    * @param {Client} client
    * @param {Message} message

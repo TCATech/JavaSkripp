@@ -13,6 +13,7 @@ module.exports = {
   name: "docs",
   description: "Get some info from the Discord.JS documentation.",
   usage: "<query>",
+  aliases: ["doc", "djs"],
   /**
    * @param {Client} client
    * @param {Message} message

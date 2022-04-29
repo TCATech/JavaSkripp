@@ -26,6 +26,7 @@ module.exports = {
   name: "userinfo",
   description: "Get some info about a user.",
   usage: "[user]",
+  aliases: ["memberinfo", "whois", "ui", "uinfo", "mi", "minfo", "wi"],
   /**
    * @param {Client} client
    * @param {Message} message

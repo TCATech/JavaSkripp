@@ -3,7 +3,8 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "membercount",
   description: "Tells you how many members are in this server.",
-  /**
+  aliases: ["members", "usercount", "users"],
+  /*
    *
    * @param {Client} client
    * @param {Message} message
