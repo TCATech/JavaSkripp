@@ -7,8 +7,12 @@ const { Client } = require("discord.js");
 module.exports = (client) => {
   client.on("messageCreate", (message) => {
     if (message.channel.id !== client.config.channels.botCommands) return;
-    setTimeout(() => {
-      message.delete();
-    }, 15000);
+    try {
+      setTimeout(() => {
+        message.delete();
+      }, 15000);
+    } catch {
+      console.log("Message already deleted.");
+    }
   });
 };
