@@ -5,6 +5,7 @@ const { welcomeImage } = require("ultrax");
 client.on("guildMemberAdd", async (member) => {
   client.channels.fetch(client.config.channels.guestbook).then((channel) => {
     channel.send({
+      content: `<@${member.id}>`,
       embeds: [
         new MessageEmbed()
           .setTitle(`Hello there ${member.user.username}!`)
