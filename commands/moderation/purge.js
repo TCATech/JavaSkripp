@@ -36,7 +36,7 @@ module.exports = {
         ],
       });
 
-    if (!isNaN(amount))
+    if (isNaN(amount))
       return message.reply({
         embeds: [
           embed
