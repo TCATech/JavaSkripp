@@ -1,38 +1,26 @@
-const { Client, Interaction, MessageEmbed } = require("discord.js");
+const { Client, Message } = require("discord.js");
 
 module.exports = {
-  name: "ban",
-  description: "Bans a user from the server.",
-  userPerms: ["BAN_MEMBERS"],
-  options: [
-    {
-      name: "user",
-      description: "The user you want to ban.",
-      type: "USER",
-      required: true,
-    },
-    {
-      name: "reason",
-      description: "The reason for the ban.",
-      type: "STRING",
-      required: false,
-    },
-  ],
+  name: "untimeout",
+  description: "Remove a timeout for someone, letting them talk again.",
+  userPerms: ["MODERATE_MEMBERS"],
+  usage: "<user> [reason]",
+  aliases: ["utm", "uto", "unmute", "um"],
   /**
-   *
    * @param {Client} client
-   * @param {Interaction} interaction
+   * @param {Message} message
+   * @param {String[]} args
    */
-  run: async (client, interaction) => {
-    const member = interaction.guild.members.cache.get(
-      interaction.options.getUser("user").id
-    );
-    if (!member)
-      return interaction.reply({
+  run: async (client, message, args) => {
+    const user =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
+    if (!user)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription("The mentioned user isn't in the server.")
+            .setDescription("You didn't mention a member. Please do so!")
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,
@@ -40,17 +28,16 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
-    const reason =
-      interaction.options.getString("reason") || "No reason provided.";
+    args.shift();
+    const reason = args.join(" ") || "No reason provided.";
 
-    if (member.id === interaction.member.id)
-      return interaction.reply({
+    if (user.id === message.author.id)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription("You can't ban yourself.")
+            .setDescription("You can't untimeout yourself.")
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,
@@ -58,18 +45,15 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
 
-    if (
-      member.roles.highest.position >= interaction.member.roles.highest.position
-    )
-      return interaction.reply({
+    if (user.roles.highest.position >= message.member.roles.highest.position)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
             .setDescription(
-              "You can't ban someone that has the exact same or a higher role than you."
+              "You can't untimeout someone that has the exact same or a higher role than you."
             )
             .setColor(client.config.color)
             .setFooter({
@@ -78,14 +62,13 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
-    if (!member.bannable)
-      return interaction.reply({
+    if (!user.manageable)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription("I can't ban that member.")
+            .setDescription("I can't untimeout that member.")
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,
@@ -93,14 +76,15 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
-    member.ban({ reason });
+    user.timeout(null, reason);
     interaction.reply({
       embeds: [
         new MessageEmbed()
-          .setTitle("Aaaand he's gone.")
-          .setDescription("I have banned " + member.user.tag + " successfully.")
+          .setTitle("Aaaaand he's back.")
+          .setDescription(
+            "I have un-timed out " + user.user.tag + " successfully."
+          )
           .addField("Reason", reason)
           .setColor(client.config.color)
           .setFooter({
@@ -109,7 +93,6 @@ module.exports = {
           })
           .setTimestamp(),
       ],
-      ephemeral: true,
     });
   },
 };

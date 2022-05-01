@@ -28,7 +28,7 @@ module.exports = {
       interaction.options.getUser("user").id
     );
     if (!member)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -40,12 +40,13 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     const reason =
       interaction.options.getString("reason") || "No reason provided.";
 
     if (member.id === interaction.member.id)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -57,12 +58,13 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
 
     if (
       member.roles.highest.position >= interaction.member.roles.highest.position
     )
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -76,9 +78,10 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     if (!member.kickable)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -90,6 +93,7 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     member.kick({ reason });
     interaction.reply({

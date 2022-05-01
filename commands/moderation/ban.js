@@ -1,38 +1,27 @@
-const { Client, Interaction, MessageEmbed } = require("discord.js");
+const { Client, Message } = require("discord.js");
 
 module.exports = {
   name: "ban",
   description: "Bans a user from the server.",
   userPerms: ["BAN_MEMBERS"],
-  options: [
-    {
-      name: "user",
-      description: "The user you want to ban.",
-      type: "USER",
-      required: true,
-    },
-    {
-      name: "reason",
-      description: "The reason for the ban.",
-      type: "STRING",
-      required: false,
-    },
-  ],
+  usage: "<user> [reason]",
+  aliases: ["b"],
   /**
-   *
    * @param {Client} client
-   * @param {Interaction} interaction
+   * @param {Message} message
+   * @param {String[]} args
    */
-  run: async (client, interaction) => {
-    const member = interaction.guild.members.cache.get(
-      interaction.options.getUser("user").id
-    );
+  run: async (client, message, args) => {
+    const member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
+
     if (!member)
-      return interaction.reply({
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription("The mentioned user isn't in the server.")
+            .setDescription("You didn't mention a member. Please do so!")
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,
@@ -40,13 +29,12 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
-    const reason =
-      interaction.options.getString("reason") || "No reason provided.";
+    args.shift();
+    const reason = args.join(" ") || "No reason provided.";
 
-    if (member.id === interaction.member.id)
-      return interaction.reply({
+    if (member.id === message.author.id)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -58,13 +46,12 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
 
     if (
       member.roles.highest.position >= interaction.member.roles.highest.position
     )
-      return interaction.reply({
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -78,10 +65,9 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
     if (!member.bannable)
-      return interaction.reply({
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -93,10 +79,9 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
     member.ban({ reason });
-    interaction.reply({
+    message.reply({
       embeds: [
         new MessageEmbed()
           .setTitle("Aaaand he's gone.")
@@ -109,7 +94,6 @@ module.exports = {
           })
           .setTimestamp(),
       ],
-      ephemeral: true,
     });
   },
 };

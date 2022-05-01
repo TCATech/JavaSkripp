@@ -1,71 +1,36 @@
-const { Client, Interaction, MessageEmbed } = require("discord.js");
+const { Client, Message } = require("discord.js");
 const ms = require("ms");
+const acceptableTimes = [
+  ms("1m"),
+  ms("5m"),
+  ms("10m"),
+  ms("1h"),
+  ms("1d"),
+  ms("7d"),
+];
 
 module.exports = {
   name: "timeout",
   description:
     "Times out a member from the server, basically stopping them from talking.",
   userPerms: ["MODERATE_MEMBERS"],
-  options: [
-    {
-      name: "user",
-      description: "The user you want to timeout.",
-      type: "USER",
-      required: true,
-    },
-    {
-      name: "time",
-      description: "The amount of time you want to timeout the user for.",
-      type: "STRING",
-      required: true,
-      choices: [
-        {
-          name: "60 seconds",
-          value: "1m",
-        },
-        {
-          name: "5 minutes",
-          value: "5m",
-        },
-        {
-          name: "10 minutes",
-          value: "10m",
-        },
-        {
-          name: "1 hour",
-          value: "1h",
-        },
-        {
-          name: "1 day",
-          value: "1d",
-        },
-        {
-          name: "1 week",
-          value: "7d",
-        },
-      ],
-    },
-    {
-      name: "reason",
-      description: "The reason for the timeout.",
-      type: "STRING",
-      required: false,
-    },
-  ],
+  usage: "<user> <time> [reason]",
+  aliases: ["tm", "to", "mute", "m"],
   /**
    * @param {Client} client
-   * @param {Interaction} interaction
+   * @param {Message} message
+   * @param {String[]} args
    */
-  run: async (client, interaction) => {
-    const user = interaction.guild.members.cache.get(
-      interaction.options.getUser("user").id
-    );
+  run: async (client, message, args) => {
+    const user =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
     if (!user)
-      return interaction.reply({
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
-            .setDescription("The mentioned user isn't in the server.")
+            .setDescription("You didn't mention a member. Please do so!")
             .setColor(client.config.color)
             .setFooter({
               text: client.user.username,
@@ -73,14 +38,47 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
-    const time = ms(interaction.options.getString("time"));
+    if (!args[1])
+      return message.reply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Uh oh!")
+            .setDescription(
+              "You didn't mention a time to timeout that member. Please do so!"
+            )
+            .setColor(client.config.color)
+            .setFooter({
+              text: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTimestamp(),
+        ],
+      });
+    const time = ms(args[1]);
+    if (!acceptableTimes.includes(time))
+      return message.reply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Uh oh!")
+            .setDescription("The time you mentioned is invalid.")
+            .addField(
+              "Valid times",
+              "`60 seconds, 5 minutes, 10 minutes, 1 hour, 1 day, 1 week`"
+            )
+            .setColor(client.config.color)
+            .setFooter({
+              text: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTimestamp(),
+        ],
+      });
     const reason =
       interaction.options.getString("reason") || "No reason provided.";
 
-    if (user.id === interaction.member.id)
-      return interaction.reply({
+    if (user.id === message.author.id)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -92,13 +90,10 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
 
-    if (
-      user.roles.highest.position >= interaction.member.roles.highest.position
-    )
-      return interaction.reply({
+    if (user.roles.highest.position >= mesage.member.roles.highest.position)
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -112,10 +107,9 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
     if (!user.manageable)
-      return interaction.reply({
+      return message.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -127,10 +121,9 @@ module.exports = {
             })
             .setTimestamp(),
         ],
-        ephemeral: true,
       });
     user.timeout(time, reason);
-    interaction.reply({
+    message.reply({
       embeds: [
         new MessageEmbed()
           .setTitle("Aaaaand he's gone.")

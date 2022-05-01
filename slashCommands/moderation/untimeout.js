@@ -27,7 +27,7 @@ module.exports = {
       interaction.options.getUser("user").id
     );
     if (!user)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -39,12 +39,13 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     const reason =
       interaction.options.getString("reason") || "No reason provided.";
 
     if (user.id === interaction.member.id)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -56,12 +57,13 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
 
     if (
       user.roles.highest.position >= interaction.member.roles.highest.position
     )
-      return message.reply({
+      return interactiopn.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -75,9 +77,10 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     if (!user.manageable)
-      return message.reply({
+      return interaction.reply({
         embeds: [
           new MessageEmbed()
             .setTitle("Uh oh!")
@@ -89,6 +92,7 @@ module.exports = {
             })
             .setTimestamp(),
         ],
+        ephemeral: true,
       });
     user.timeout(null, reason);
     interaction.reply({

@@ -78,7 +78,11 @@ module.exports = {
         embed.addField("Category", `\`${name[cmd.directory]}\``);
       if (cmd.userPerms)
         embed.addField("Permissions", cmd.userPerms.join(", "));
-      if (cmd.aliases) embed.addField("Permissions", cmd.aliases.join(", "));
+      if (cmd.aliases)
+        embed.addField(
+          `Alias${cmd.aliases.length > 1 ? "es" : ""}`,
+          cmd.aliases.join(", ")
+        );
       if (cmd.usage) {
         embed
           .addField(
