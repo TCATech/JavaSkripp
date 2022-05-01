@@ -64,9 +64,15 @@ module.exports = {
             messages.size +
             "` messages from this channel."
         );
-      message.reply({
-        embeds: [embed],
-      });
+      message.channel
+        .send({
+          embeds: [embed],
+        })
+        .then((msg) => {
+          setTimeout(() => {
+            msg.delete();
+          }, 5000);
+        });
     });
   },
 };
