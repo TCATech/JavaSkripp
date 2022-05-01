@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js");
 const ms = require("ms");
 const acceptableTimes = [
   ms("1m"),
