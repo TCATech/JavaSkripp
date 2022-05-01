@@ -76,6 +76,9 @@ module.exports = {
         embed.addField("Description", `\`${cmd.description}\``);
       if (cmd.directory)
         embed.addField("Category", `\`${name[cmd.directory]}\``);
+      if (cmd.userPerms)
+        embed.addField("Permissions", cmd.userPerms.join(", "));
+      if (cmd.aliases) embed.addField("Permissions", cmd.aliases.join(", "));
       if (cmd.usage) {
         embed
           .addField(
