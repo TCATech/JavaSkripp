@@ -48,7 +48,7 @@ module.exports = {
       });
 
     if (amount > 100)
-      return interaction.reply({
+      return message.reply({
         embeds: [
           embed
             .setTitle("Uh oh!")
