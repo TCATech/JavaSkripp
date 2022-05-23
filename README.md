@@ -2,4 +2,4 @@
 
 A cool bot made for TCA's server.
 
-###### Making this cooler soon.
+###### This is now deprecated. Check out [Axobotl](https://github.com/TCATech/Axobotl).
